@@ -113,13 +113,13 @@ void setupBoard(char *gameBoard) {
 
         for(int j = 0; j <= 6; j++) {
 
-            *((gameBoard + i * BOARD_HORIZONTAL + j)) = 'N';
+            *((gameBoard + i * BOARD_HORIZONTAL + j)) = 'P';
         }
     }
 }
 
 int makeSecondPlayerMove(char *gameBoard, int column, const char *GAME_PIECES) { // Routine that allows the second player to make a move.
-    return 0;
+    return 1;
 }
 
 void displayGameBoard(char *gameBoard) { // Routine to display the game board to play in. It will display a Connect 4 Game Board using a 2-D array data structure
