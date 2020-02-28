@@ -91,11 +91,15 @@ void playGame(char *gameBoard, const char *GAMEPIECES) { // Routine that starts 
          }
 }
 
-int makeMove(char *gameBoard, int column, int thePlayer, const char *GAME_PIECES) { // Routine that allows Player X to make a move
+int makeMove(char *gameBoard[], int column, int thePlayer, const char *GAME_PIECES) { // Routine that allows Player X to make a move
    int valid_move = 0; // Determines if the slot is a valid move or not.
 
-   printf("\n Player %d make a move please.", thePlayer+ 1); // Prompts the player to make a move.
+   printf("\n Player %d choose a column coordinate please.", thePlayer+ 1); // Prompts the player to make a move.
    scanf("%d", &column);
+
+   printf("%d", column);
+
+   gameBoard[0][2] = 'B';
 
         if(column > BOARD_VERTICAL) {
             printf("\n Not possible");
@@ -103,6 +107,12 @@ int makeMove(char *gameBoard, int column, int thePlayer, const char *GAME_PIECES
             valid_move = 0;
             exit(1);
         }
+
+       // for(int move = BOARD_VERTICAL -1; move >=0; move--) {
+           // if(gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL] == ' ') {
+             //   gameBoard[BOARD_VERTICAL * move + column] = GAME_PIECES[thePlayer];
+            //}
+       // }
     
   return 0;
 }
