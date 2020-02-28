@@ -22,11 +22,11 @@
 
 void showInstructions();
 void showGameHelp();
-void displayGameBoard(char *gameBoard);
+void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
 
 void playGame(char *gameBoard, const char *GAME_PIECES);
 int makeMove(char *gameBoard, int theColumn, int theRow, int thePlayer, const char *GAME_PIECES);
-void updateBoard(char *gameBoard, char token, int theRow, int theColumn);
+void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char token, int theRow, int theColumn);
 int makeSecondPlayerMove(char *gameBoard, int column, const char *GAME_PIECES);
 
 struct BoardState {
@@ -115,9 +115,11 @@ int makeMove(char *gameBoard, int theColumn, int theRow, int thePlayer, const ch
   return 0;
 }
 
-void updateBoard(char *gameBoard, char token, int theRow, int theColumn) {
+void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char token, int theRow, int theColumn) {
 
-    *((gameBoard + theRow * BOARD_HORIZONTAL + theColumn)) = token;
+   // *((gameBoard + theRow * BOARD_HORIZONTAL + theColumn)) = token;
+   gameBoard[theRow][theColumn] = token;
+   displayGameBoard(gameBoard);
     }
 
 void setupBoard(char *gameBoard) {
@@ -135,14 +137,15 @@ int makeSecondPlayerMove(char *gameBoard, int column, const char *GAME_PIECES) {
     return 1;
 }
 
-void displayGameBoard(char *gameBoard) { // Routine to display the game board to play in. It will display a Connect 4 Game Board using a 2-D array data structure
+void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to display the game board to play in. It will display a Connect 4 Game Board using a 2-D array data structure
   system("clear");
      for(int index = 0; index < BOARD_VERTICAL; index++) {
 
          for(int secondIndex = 0; secondIndex < BOARD_HORIZONTAL; secondIndex++) {
 
-             printf("| %c ",  gameBoard[BOARD_VERTICAL * index + secondIndex]);
+             printf("| %c ",  gameBoard[index][secondIndex]);
          }
+
          puts("|");
          printf("\n"); // Print a new line
      }
