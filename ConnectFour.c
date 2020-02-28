@@ -22,12 +22,12 @@
 
 void showInstructions();
 void showGameHelp();
-void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
 
+void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
 void playGame(char *gameBoard);
-int makeMove(char *gameBoard, int thePlayer);
-void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, char token, int theColumn);
-int makeSecondPlayerMove(char *gameBoard, int secondPlayer);
+
+int makeMove(char *gameBoard, int thePlayer, int secondPlayer);
+void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, int secondPlayer, char token, char secondPlayerToken, int theColumn, int nextColumn);
 
 struct BoardState {
     int playerMoves[PLAYER_MOVES];
@@ -56,7 +56,9 @@ void playGame(char *gameBoard) { // Routine that starts the game
     int namesEntered = 0; // Flag to determine if the names are
     int column = 0;
     int theRow = 0;
+
     int thePlayer = 0;
+    int secondPlayer = 0;
     int position = 0;
 
         printf("\n\n Player X: Enter your name please.");
@@ -70,7 +72,7 @@ void playGame(char *gameBoard) { // Routine that starts the game
 
         if(namesEntered == 1) { // If the name has been entered
             displayGameBoard(gameBoard); // Show the game board again.
-            makeMove(gameBoard, thePlayer); // Enable the player to make a move.
+            makeMove(gameBoard, thePlayer, secondPlayer); // Enable the player to make a move.
         }
 
         if(strcmp(playerOneName, "0") == 0) { // If the player enters 0 for the name
@@ -92,13 +94,21 @@ void playGame(char *gameBoard) { // Routine that starts the game
          }
 }
 
-int makeMove(char *gameBoard, int thePlayer) { // Routine that allows Player X to make a move
+int makeMove(char *gameBoard, int thePlayer, int secondPlayer) { // Routine that allows Player X to make a move
    int valid_move = 0; // Determines if the slot is a valid move or not.
    int theColumn = 0;
+   int nextColumn = 0;
 
-   printf("\n Player %d choose a column coordinate please.", thePlayer+ 1); // Prompts the player to make a move.
+   int game_over = 0;
+
+    while(!game_over) {
+
+   printf("\n Player %d choose a column coordinate please.", thePlayer + 1); // Prompts the player to make a move.
    scanf("%d", &theColumn);
+   displayGameBoard(gameBoard);
 
+   printf("\n Player %d it's your turn now. Choose a column coordinate please", thePlayer + 2);
+   scanf("%d", &nextColumn);
 
         if(theColumn > BOARD_VERTICAL) {
             printf("\n Not possible");
@@ -108,36 +118,36 @@ int makeMove(char *gameBoard, int thePlayer) { // Routine that allows Player X t
         }
 
        char token = 'X';
-       char playerTwoToken = 'O';
+       char secondPlayerToken = 'O';
 
-       updateBoard(gameBoard, thePlayer, token, theColumn);
+       updateBoard(gameBoard, thePlayer, secondPlayer, token, secondPlayerToken, theColumn, nextColumn);
        displayGameBoard(gameBoard);
-
+    }
        
   return 0;
 }
 
-void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, char token, int theColumn) {
-    printf("the column: %d", theColumn);
+void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, int secondPlayer, char token, char secondPlayerToken, int theColumn, int nextColumn) {
     int updated_position = 0;
     for(int i = BOARD_VERTICAL - 1; i >=0; i--) {
 
         if(gameBoard[i][theColumn] == ' ') {
 
             updated_position = 1;
-             gameBoard[i][theColumn] = token;
+            gameBoard[i][theColumn] = token;
+            gameBoard[i][nextColumn] = secondPlayerToken;
+            
              displayGameBoard(gameBoard);
+            
              break;
         }
     }
 
     if(updated_position == 0) {
-       makeMove(gameBoard, thePlayer);
+       makeMove(gameBoard, thePlayer, secondPlayer);
     }
+ }
 
-   // *((gameBoard + theRow * BOARD_HORIZONTAL + theColumn)) = token;
-  
-    }
 
 void setupBoard(char gameBoard[][BOARD_HORIZONTAL]) {
 
@@ -149,10 +159,8 @@ void setupBoard(char gameBoard[][BOARD_HORIZONTAL]) {
         }
     }
     
-}
-
-int makeSecondPlayerMove(char *gameBoard, int secondPlayer) { // Routine that allows the second player to make a move.
-    return 1;
+ gameBoard[BOARD_VERTICAL-1][1] = ' ';
+    
 }
 
 void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to display the game board to play in. It will display a Connect 4 Game Board using a 2-D array data structure
