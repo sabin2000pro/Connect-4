@@ -25,7 +25,7 @@ void showGameHelp();
 void displayGameBoard(char *gameBoard);
 
 void playGame(char *gameBoard, const char *GAMEPIECES);
-int makeMove(char *gameBoard, int column, const char *GAMEPIECES);
+int makeMove(char *gameBoard, int column, int thePlayer, const char *GAMEPIECES);
 int makeSecondPlayerMove(char *gameBoard, int column, const char *GAMEPIECES);
 
 struct BoardState {
@@ -55,6 +55,7 @@ void playGame(char *gameBoard, const char *GAMEPIECES) { // Routine that starts 
     int namesEntered = 0; // Flag to determine if the names are
 
     int column = 0;
+    int thePlayer = 0;
     int position = 0;
 
         printf("\n\n Player X: Enter your name please.");
@@ -67,9 +68,8 @@ void playGame(char *gameBoard, const char *GAMEPIECES) { // Routine that starts 
         namesEntered = 1;
 
         if(namesEntered == 1) { // If the name has been entered
-        
             displayGameBoard(gameBoard); // Show the game board again.
-            makeMove(gameBoard, column, GAMEPIECES); // Enable the player to make a move.
+            makeMove(gameBoard, column, GAMEPIECES, thePlayer); // Enable the player to make a move.
         }
 
         if(strcmp(playerOneName, "0") == 0) { // If the player enters 0 for the name
@@ -91,10 +91,10 @@ void playGame(char *gameBoard, const char *GAMEPIECES) { // Routine that starts 
          }
 }
 
-int makeMove(char *gameBoard, int column, const char *GAME_PIECES) { // Routine that allows Player X to make a move
+int makeMove(char *gameBoard, int column, int thePlayer, const char *GAME_PIECES) { // Routine that allows Player X to make a move
    int valid_move = 0; // Determines if the slot is a valid move or not.
 
-   printf("\n Player X make a move please. Choose a column");
+   printf("\n Player %d make a move please.", thePlayer+ 1); // Prompts the player to make a move.
    scanf("%d", &column);
 
         if(column > BOARD_VERTICAL) {
