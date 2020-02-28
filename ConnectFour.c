@@ -109,9 +109,9 @@ int makeMove(char *gameBoard, int column, const char *GAME_PIECES) { // Routine 
 
 void setupBoard(char *gameBoard) {
 
-    for(int i = 0; i <= 6; i++) {
+    for(int i = 0; i <= BOARD_VERTICAL; i++) {
 
-        for(int j = 0; j <= 6; j++) {
+        for(int j = 0; j <= BOARD_VERTICAL; j++) {
 
             *((gameBoard + i * BOARD_HORIZONTAL + j)) = 'P';
         }
