@@ -22,11 +22,10 @@
 
 void showInstructions();
 void showGameHelp();
-
 void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
 void playGame(char *gameBoard);
-
 int makeMove(char *gameBoard, int thePlayer, int secondPlayer);
+int checkWin(char *gameBoard);
 void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, int secondPlayer, char token, char secondPlayerToken, int theColumn, int nextColumn);
 
 struct BoardState {
@@ -97,15 +96,14 @@ void playGame(char *gameBoard) { // Routine that starts the game
 int makeMove(char *gameBoard, int thePlayer, int secondPlayer) { // Routine that allows Player X to make a move
    int valid_move = 0; // Determines if the slot is a valid move or not.
    int theColumn = 0;
-   int nextColumn = 0;
 
+   int nextColumn = 0;
    int game_over = 0;
 
-    while(!game_over) {
+   do {
 
    printf("\n Player %d choose a column coordinate please.", thePlayer + 1); // Prompts the player to make a move.
    scanf("%d", &theColumn);
-   displayGameBoard(gameBoard);
 
    printf("\n Player %d it's your turn now. Choose a column coordinate please", thePlayer + 2);
    scanf("%d", &nextColumn);
@@ -122,7 +120,7 @@ int makeMove(char *gameBoard, int thePlayer, int secondPlayer) { // Routine that
 
        updateBoard(gameBoard, thePlayer, secondPlayer, token, secondPlayerToken, theColumn, nextColumn);
        displayGameBoard(gameBoard);
-    }
+    } while(!game_over);
        
   return 0;
 }
@@ -148,6 +146,9 @@ void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, int secondPl
     }
  }
 
+int checkWin(char *gameBoard) {
+    return 0;
+}
 
 void setupBoard(char gameBoard[][BOARD_HORIZONTAL]) {
 
@@ -175,6 +176,7 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
          puts("|");
          printf("\n"); // Print a new line
      }
+
 }
 
 void playVsComputer() {
