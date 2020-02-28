@@ -24,9 +24,10 @@ void showInstructions();
 void showGameHelp();
 void displayGameBoard(char *gameBoard);
 
-void playGame(char *gameBoard, const char *GAMEPIECES);
-int makeMove(char *gameBoard, int column, int thePlayer, const char *GAMEPIECES);
-int makeSecondPlayerMove(char *gameBoard, int column, const char *GAMEPIECES);
+void playGame(char *gameBoard, const char *GAME_PIECES);
+int makeMove(char *gameBoard, int theColumn, int theRow, int thePlayer, const char *GAME_PIECES);
+void updateBoard(char *gameBoard, char token, int theRow, int theColumn);
+int makeSecondPlayerMove(char *gameBoard, int column, const char *GAME_PIECES);
 
 struct BoardState {
     int playerMoves[PLAYER_MOVES];
@@ -53,8 +54,8 @@ void playGame(char *gameBoard, const char *GAMEPIECES) { // Routine that starts 
     char playerTwoName[PLAYER_TWO_SIZE]; // Name of player 2
 
     int namesEntered = 0; // Flag to determine if the names are
-
     int column = 0;
+    int theRow = 0;
     int thePlayer = 0;
     int position = 0;
 
@@ -69,7 +70,7 @@ void playGame(char *gameBoard, const char *GAMEPIECES) { // Routine that starts 
 
         if(namesEntered == 1) { // If the name has been entered
             displayGameBoard(gameBoard); // Show the game board again.
-            makeMove(gameBoard, column, GAMEPIECES, thePlayer); // Enable the player to make a move.
+            makeMove(gameBoard, column, theRow, GAMEPIECES, thePlayer); // Enable the player to make a move.
         }
 
         if(strcmp(playerOneName, "0") == 0) { // If the player enters 0 for the name
@@ -91,31 +92,33 @@ void playGame(char *gameBoard, const char *GAMEPIECES) { // Routine that starts 
          }
 }
 
-int makeMove(char *gameBoard[], int column, int thePlayer, const char *GAME_PIECES) { // Routine that allows Player X to make a move
+int makeMove(char *gameBoard, int theColumn, int theRow, int thePlayer, const char *GAME_PIECES) { // Routine that allows Player X to make a move
    int valid_move = 0; // Determines if the slot is a valid move or not.
 
    printf("\n Player %d choose a column coordinate please.", thePlayer+ 1); // Prompts the player to make a move.
-   scanf("%d", &column);
+   scanf("%d", &theColumn);
 
-   printf("%d", column);
+   printf("\n Player %d choose a row please", thePlayer + 1);
+   scanf("%d", &theRow);
 
-   gameBoard[0][2] = 'B';
-
-        if(column > BOARD_VERTICAL) {
+        if(theColumn > BOARD_VERTICAL) {
             printf("\n Not possible");
 
-            valid_move = 0;
+           valid_move = 0;
             exit(1);
         }
+       char token = 'X';
+       updateBoard(gameBoard, token, theRow, theColumn);
+       displayGameBoard(gameBoard);
 
-       // for(int move = BOARD_VERTICAL -1; move >=0; move--) {
-           // if(gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL] == ' ') {
-             //   gameBoard[BOARD_VERTICAL * move + column] = GAME_PIECES[thePlayer];
-            //}
-       // }
-    
+       
   return 0;
 }
+
+void updateBoard(char *gameBoard, char token, int theRow, int theColumn) {
+
+    *((gameBoard + theRow * BOARD_HORIZONTAL + theColumn)) = token;
+    }
 
 void setupBoard(char *gameBoard) {
 
@@ -133,7 +136,7 @@ int makeSecondPlayerMove(char *gameBoard, int column, const char *GAME_PIECES) {
 }
 
 void displayGameBoard(char *gameBoard) { // Routine to display the game board to play in. It will display a Connect 4 Game Board using a 2-D array data structure
-
+  system("clear");
      for(int index = 0; index < BOARD_VERTICAL; index++) {
 
          for(int secondIndex = 0; secondIndex < BOARD_HORIZONTAL; secondIndex++) {
@@ -151,7 +154,6 @@ void playVsComputer() {
 
 int main(int argc, char **argv) {
   char gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL];
-  setupBoard(gameBoard);
    
     const char *GAME_PIECES = "XO";
     int thePlayerChoice = 0; // Player choice flag
