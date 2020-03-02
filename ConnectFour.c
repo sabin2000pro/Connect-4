@@ -4,7 +4,6 @@
 #include <string.h>
 #include <assert.h>
 
-
 // Author of Application: Sabin Constantin Lungu
 // Purpose of Application: To implement a Connect 4 Game using Data Structures and Algorithms.
 // Date of Last Modification: 27/02/2020
@@ -25,11 +24,11 @@ void showGameHelp();
 void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
 void playGame(char *gameBoard);
 
-int makeMove(char *gameBoard, int thePlayer, int secondPlayer);
+int makeMove(char *gameBoard, char playerOneName[PLAYER_ONE_SIZE], char playerTwoName[PLAYER_TWO_SIZE]);
 int checkWin(char *gameBoard);
 
 int checkFour(char *gameBoard, int first, int second, int third, int fourth);
-void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, int secondPlayer, char token, char secondPlayerToken, int theColumn, int nextColumn);
+void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char playerOneName[PLAYER_ONE_SIZE], char playerTwoName[PLAYER_TWO_SIZE], char token, char secondPlayerToken, int theColumn, int nextColumn);
 
 struct BoardState {
     int playerMoves[PLAYER_MOVES];
@@ -63,15 +62,14 @@ void playGame(char *gameBoard) { // Routine that starts the game
     int secondPlayer = 0;
     int position = 0;
 
+    printf("\n\n Player X: Enter your name please.");
+    scanf("%s", playerOneName);
+     namesEntered = 1;
 
-        printf("\n\n Player X: Enter your name please.");
-        scanf("%s", playerOneName);
-        namesEntered = 1;
+    printf("\n Player O: Enter your name please."); // Asks player 2 to enter 
+    scanf("%s", playerTwoName);
 
-        printf("\n Player O: Enter your name please."); // Asks player 2 to enter 
-        scanf("%s", playerTwoName);
-
-        namesEntered = 1;
+    namesEntered = 1;
 
         if(namesEntered == 1) { // If the name has been entered
     
@@ -99,7 +97,7 @@ void playGame(char *gameBoard) { // Routine that starts the game
          }
 }
 
-int makeMove(char *gameBoard, int thePlayer, int secondPlayer) { // Routine that allows Player X to make a move
+int makeMove(char *gameBoard, char playerOneName[PLAYER_ONE_SIZE], char playerTwoName[PLAYER_TWO_SIZE]) { // Routine that allows Player X to make a move
    int valid_move = 0; // Determines if the slot is a valid move or not.
    int theColumn = 0;
 
@@ -108,24 +106,23 @@ int makeMove(char *gameBoard, int thePlayer, int secondPlayer) { // Routine that
 
    do {
 
-   printf("\n Player %d choose a column coordinate please.", thePlayer + 1); // Prompts the player to make a move.
+   printf("\n Player %s choose a column coordinate please.", playerOneName); // Prompts the player to make a move.
    scanf("%d", &theColumn);
 
-   printf("\n Player %d it's your turn now. Choose a column coordinate please", thePlayer + 2);
+   printf("\n Player %s it's your turn now. Choose a column coordinate please", playerTwoName);
    scanf("%d", &nextColumn);
-
 
         if(theColumn > BOARD_VERTICAL) {
             printf("\n Not possible");
 
-           valid_move = 0;
+            valid_move = 0;
             exit(1);
         }
 
        char token = 'X';
        char secondPlayerToken = 'O';
        
-       updateBoard(gameBoard, thePlayer, secondPlayer, token, secondPlayerToken, theColumn, nextColumn);
+       updateBoard(gameBoard, playerOneName, playerTwoName, token, secondPlayerToken, theColumn, nextColumn);
        displayGameBoard(gameBoard);
 
     } while(!game_over);
@@ -133,7 +130,7 @@ int makeMove(char *gameBoard, int thePlayer, int secondPlayer) { // Routine that
   return 0;
 }
 
-void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, int secondPlayer, char token, char secondPlayerToken, int theColumn, int nextColumn) {
+void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char playerOneName[PLAYER_ONE_SIZE], char playerTwoName[PLAYER_TWO_SIZE], char token, char secondPlayerToken, int theColumn, int nextColumn) {
     int updated_position = 0;
     for(int i = BOARD_VERTICAL - 1; i >=0; i--) {
 
@@ -150,7 +147,7 @@ void updateBoard(char gameBoard[][BOARD_HORIZONTAL], int thePlayer, int secondPl
     }
 
     if(updated_position == 0) {
-       makeMove(gameBoard, thePlayer, secondPlayer);
+       makeMove(gameBoard, playerOneName, playerTwoName);
     }
  }
 
@@ -159,8 +156,7 @@ int checkWin(char *gameBoard) {
 }
 
 int checkFour(char *gameBoard, int first, int second, int third, int fourth) {
-        return (gameBoard[first] == gameBoard[second] && gameBoard[second] == gameBoard[third] && gameBoard[third] == gameBoard[fourth] && gameBoard[fourth] != ' ');
-
+    return (gameBoard[first] == gameBoard[second] && gameBoard[second] == gameBoard[third] && gameBoard[third] == gameBoard[fourth] && gameBoard[fourth] != ' ');
 }
 
 void setupBoard(char gameBoard[][BOARD_HORIZONTAL]) {
@@ -173,7 +169,7 @@ void setupBoard(char gameBoard[][BOARD_HORIZONTAL]) {
         }
     }
     
- gameBoard[BOARD_VERTICAL-1][1] = ' ';
+ gameBoard[BOARD_VERTICAL-1][0] = ' ';
     
 }
 
@@ -185,12 +181,12 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
 
              printf("| %c ",  gameBoard[index][secondIndex]);
          }
+
          puts("|");
 
       puts("-----------------------------");
 
      }
-
 }
 
 void playVsComputer() {
@@ -198,7 +194,8 @@ void playVsComputer() {
 }
 
 int main(int argc, char **argv) {
-  char gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL];
+ char gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL];
+ memset(gameBoard, ' ', BOARD_HORIZONTAL * BOARD_VERTICAL);
    
  int thePlayerChoice = 0; // Player choice flag
 
