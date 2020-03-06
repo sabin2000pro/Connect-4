@@ -293,6 +293,7 @@ int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
           if(verifyDiagonalFour(gameBoard, i, j , token) == 1) {
 
               printf("Player : %c  you are the winner", token);
+              printf("Would you like to play again ? Y | N");
 
               exit(1);
               return 1;
