@@ -31,9 +31,11 @@ int checkWinner(char gameBoard[][BOARD_HORIZONTAL], char token);
 int checkFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token);
 
 int verifyVerticalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token);
+int verifyDiagonalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token);
 
 int checkHorizontal(char gameBoard[][BOARD_HORIZONTAL], char token);
 int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token);
+int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token);
 void updateBoard(char gameBoard[][BOARD_HORIZONTAL],char token, int theColumn);
 
 struct BoardState {
@@ -225,6 +227,11 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
             }
          }
     }
+}
+
+int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
+
+    return 0;
 }
 
 int checkHorizontal(char gameBoard[][BOARD_HORIZONTAL], char token) { // Routine that checks the horizontal for a match of 4 to determine the winner
