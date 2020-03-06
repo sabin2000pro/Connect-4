@@ -28,14 +28,16 @@ void playGame(char gameBoard[][BOARD_HORIZONTAL]);
 
 int makeMove(char gameBoard[][BOARD_HORIZONTAL]);
 int checkWinner(char gameBoard[][BOARD_HORIZONTAL], char token);
-int checkFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token);
 
+int verifyHorizontalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token);
 int verifyVerticalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token);
 int verifyDiagonalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token);
+
 
 int checkHorizontal(char gameBoard[][BOARD_HORIZONTAL], char token);
 int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token);
 int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token);
+
 void updateBoard(char gameBoard[][BOARD_HORIZONTAL],char token, int theColumn);
 
 struct BoardState {
@@ -163,10 +165,10 @@ void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char token, int theColumn) 
  }
 
  int checkWinner(char gameBoard[][BOARD_HORIZONTAL], char token) {
-      return (checkHorizontal(gameBoard, token) && verticalCheck(gameBoard, token));
+      return (checkHorizontal(gameBoard, token) && verticalCheck(gameBoard, token) && diagonalCheck(gameBoard, token));
  }
 
-int checkFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) {
+int verifyHorizontalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) {
     int counter = 0;
 
     if(gameBoard[row][column] == gameBoard[row][column +1]) {
@@ -210,6 +212,30 @@ int verifyVerticalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, 
 
    return counter == 4;
 
+    return 0;
+}
+
+int verifyDiagonalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) {
+int counter = 0;
+
+ if(gameBoard[row][column] != ' ' && gameBoard[row][column] == gameBoard[row+1][column+1]) {
+     counter++;
+ }
+
+ if(gameBoard[row][column] == gameBoard[row+2][column+2]) {
+     counter++;
+ }
+
+ if(gameBoard[row][column] == gameBoard[row+3][column+3]) {
+     counter++;
+ }
+
+ if(gameBoard[row][column] == token) {
+     counter++;
+ }
+
+ return counter == 4;
+
 
     return 0;
 }
@@ -231,6 +257,20 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
 
 int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
 
+  for(int i = 0; i < BOARD_VERTICAL -3; i++) {
+      for(int j = 0; j < BOARD_HORIZONTAL - 3; j ++) {
+
+          if(verifyDiagonalFour(gameBoard, i, j , token) == 1) {
+
+              printf("Player : %c  you are the winner", token);
+
+              exit(1);
+              return 1;
+
+          }
+      }
+  }
+
     return 0;
 }
 
@@ -239,7 +279,7 @@ int checkHorizontal(char gameBoard[][BOARD_HORIZONTAL], char token) { // Routine
      for(int i = 0; i < BOARD_VERTICAL; i++) {
          for(int j = 0; j < BOARD_HORIZONTAL-3; j++) {
             
-          if(checkFour(gameBoard, i, j, token) == 1) {
+          if(verifyHorizontalFour(gameBoard, i, j, token) == 1) {
               printf("Player : %c  you are the winner", token);
 
               exit(1);
@@ -282,7 +322,7 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
 }
 
 void playVsComputer() {
-   //
+   
 }
 
 int main(int argc, char **argv) {
