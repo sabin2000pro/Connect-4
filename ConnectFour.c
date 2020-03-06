@@ -12,23 +12,25 @@
 #define BOARD_HORIZONTAL 7
 #define BOARD_VERTICAL 6 // Vertical slots for the game board
 
-#define PLAYER_ONE_SIZE 128
-#define PLAYER_TWO_SIZE 128
+#define PLAYER_NAME_SIZE 128
 
 #define TRUE 1
 #define FALSE 0
 #define PLAYER_MOVES 42
 
+char playerOneName[PLAYER_NAME_SIZE];
+char playerTwoName[PLAYER_NAME_SIZE];
+
 void showInstructions();
 void showGameHelp();
 void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
-void playGame(char *gameBoard);
+void playGame(char gameBoard[][BOARD_HORIZONTAL]);
 
-int makeMove(char *gameBoard, char playerOneName[PLAYER_ONE_SIZE], char playerTwoName[PLAYER_TWO_SIZE]);
-int checkWin(char *gameBoard);
+int makeMove(char gameBoard[][BOARD_HORIZONTAL]);
+int checkWin(char gameBoard[][BOARD_HORIZONTAL]);
 
-int checkFour(char *gameBoard, int first, int second, int third, int fourth);
-void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char playerOneName[PLAYER_ONE_SIZE], char playerTwoName[PLAYER_TWO_SIZE], char token, char secondPlayerToken, int theColumn, int nextColumn);
+int checkFour(char gameBoard[][BOARD_HORIZONTAL], int first, int second, int third, int fourth);
+void updateBoard(char gameBoard[][BOARD_HORIZONTAL],char token, int theColumn);
 
 struct BoardState {
     int playerMoves[PLAYER_MOVES];
@@ -50,9 +52,8 @@ void showGameHelp() {
     printf("\n\n Match 4 Discs diagonally, horizontally or vertically to win.\n ");
 }
 
-void playGame(char *gameBoard) { // Routine that starts the game
-    char playerOneName[PLAYER_ONE_SIZE]; // Name of player 1
-    char playerTwoName[PLAYER_TWO_SIZE]; // Name of player 2
+void playGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that starts the game
+   
 
     int namesEntered = 0; // Flag to determine if the names are
     int column = 0;
@@ -74,7 +75,7 @@ void playGame(char *gameBoard) { // Routine that starts the game
         if(namesEntered == 1) { // If the name has been entered
     
             displayGameBoard(gameBoard); // Show the game board again.
-            makeMove(gameBoard, thePlayer, secondPlayer); // Enable the player to make a move.
+            makeMove(gameBoard); // Enable the player to make a move.
 
         }
 
@@ -97,20 +98,31 @@ void playGame(char *gameBoard) { // Routine that starts the game
          }
 }
 
-int makeMove(char *gameBoard, char playerOneName[PLAYER_ONE_SIZE], char playerTwoName[PLAYER_TWO_SIZE]) { // Routine that allows Player X to make a move
+int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player X to make a move
    int valid_move = 0; // Determines if the slot is a valid move or not.
    int theColumn = 0;
 
+   int counter = 0;
    int nextColumn = 0;
+
    int game_over = 0;
 
+   char token;
+
    do {
+       counter++;
+       if(counter % 2 == 0) {
+           printf("\n Player %s it's your turn now. Choose a column coordinate please", playerTwoName);
+           scanf("%d", &theColumn);
+           token = 'O';
+       }
 
-   printf("\n Player %s choose a column coordinate please.", playerOneName); // Prompts the player to make a move.
-   scanf("%d", &theColumn);
-
-   printf("\n Player %s it's your turn now. Choose a column coordinate please", playerTwoName);
-   scanf("%d", &nextColumn);
+       else {
+           printf("\n Player %s choose a column coordinate please.", playerOneName); // Prompts the player to make a move.
+           scanf("%d", &theColumn);
+           token = 'X';
+           
+       }
 
         if(theColumn > BOARD_VERTICAL) {
             printf("\n Not possible");
@@ -118,11 +130,8 @@ int makeMove(char *gameBoard, char playerOneName[PLAYER_ONE_SIZE], char playerTw
             valid_move = 0;
             exit(1);
         }
-
-       char token = 'X';
-       char secondPlayerToken = 'O';
        
-       updateBoard(gameBoard, playerOneName, playerTwoName, token, secondPlayerToken, theColumn, nextColumn);
+       updateBoard(gameBoard, token, theColumn);
        displayGameBoard(gameBoard);
 
     } while(!game_over);
@@ -130,7 +139,7 @@ int makeMove(char *gameBoard, char playerOneName[PLAYER_ONE_SIZE], char playerTw
   return 0;
 }
 
-void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char playerOneName[PLAYER_ONE_SIZE], char playerTwoName[PLAYER_TWO_SIZE], char token, char secondPlayerToken, int theColumn, int nextColumn) {
+void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char token, int theColumn) {
     int updated_position = 0;
     for(int i = BOARD_VERTICAL - 1; i >=0; i--) {
 
@@ -138,24 +147,14 @@ void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char playerOneName[PLAYER_O
 
             updated_position = 1;
             gameBoard[i][theColumn] = token;
-            gameBoard[i][nextColumn] = secondPlayerToken;
             
-             displayGameBoard(gameBoard);
-            
+             displayGameBoard(gameBoard);            
              break;
         }
     }
-
-    if(updated_position == 0) {
-       makeMove(gameBoard, playerOneName, playerTwoName);
-    }
  }
 
-int checkWin(char *gameBoard) {
-    return 0;
-}
-
-int checkFour(char *gameBoard, int first, int second, int third, int fourth) {
+int checkFour(char gameBoard[][BOARD_HORIZONTAL], int first, int second, int third, int fourth) {
     return (gameBoard[first] == gameBoard[second] && gameBoard[second] == gameBoard[third] && gameBoard[third] == gameBoard[fourth] && gameBoard[fourth] != ' ');
 }
 
