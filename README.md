@@ -23,7 +23,7 @@ If your Operating System is Windows then follow the steps below to run the appli
 
 > 2. Type in the current directory that you are working in (cd "Folder name"). 
 
-> 3. Type in the MS-DOS Shell make "filename" to make the application with regards to the makefile. 
+> 3. Type in the MS-DOS Shell the command: ***"nmake build"*** to make the application with regards to the makefile. 
 
 > 4. Type in the MS-DOS Shell: cl "filename" to compile the application that will then create an executable file.
   
