@@ -292,14 +292,23 @@ int verifyDiagonalFourRight(char gameBoard[][BOARD_HORIZONTAL], int row, int col
 }
 
 int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Helper method that checks the vertical board for a win.
-
+ char playAgainToken;
      for(int i = 0; i < BOARD_VERTICAL-3; i++) {
          for(int j = 0; j < BOARD_HORIZONTAL; j++) {
             
           if(verifyVerticalFour(gameBoard, i, j, token) == 1) { // If the verification of the vertical four is true
               printf("Player : %c  you are the winner. Would you like to play again? Y for Yes or N for No", token); // Display the winner of the game.
+              scanf(" %c", &playAgainToken); // Get the user input if the player wants to play again.
+
+             if(playAgainToken == 'N') {
+                 printf("\n Have a good day");
+                 exit(1);
+             }
+
+             if(playAgainToken == 'Y') {
+                 startGame();
+             }
             
-              exit(1); // Quit the application
               return 1;
             }
          }
@@ -309,14 +318,23 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Helper me
 }
 
 int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
-char playAgainFlag;
+char playAgainToken;
   for(int i = 0; i < BOARD_VERTICAL -3; i++) {
       for(int j = 0; j < BOARD_HORIZONTAL - 3; j++) {
 
           if(verifyDiagonalFour(gameBoard, i, j , token) == 1) {
 
               printf("Player : %c  you are the winner. Would you like to play again? Y for Yes or N for No", token);
-           
+              scanf(" %c", &playAgainToken); // Get the user input if the player wants to play again.
+
+             if(playAgainToken == 'N') {
+                 printf("\n Have a good day");
+                 exit(1);
+             }
+
+             if(playAgainToken == 'Y') {
+                 startGame();
+             }
               return 1;
 
           }
@@ -327,13 +345,22 @@ char playAgainFlag;
 }
 
 int diagonalCheckRight(char gameBoard[][BOARD_HORIZONTAL], char token) {
-    char playAgainFlag;
+    char playAgainToken;
     for(int i = 0; i < BOARD_VERTICAL-3; i++) {
         for(int j = 3; j < BOARD_HORIZONTAL; j++) {
 
             if(verifyDiagonalFourRight(gameBoard, i, j, token) == 1) {
                 printf("Player : %c  you are the winner. Would you like to play again? Y for Yes or N for NO", token);
+                scanf(" %c", &playAgainToken); // Get the user input if the player wants to play again.
 
+             if(playAgainToken == 'N') {
+                 printf("\n Have a good day");
+                 exit(1);
+             }
+
+             if(playAgainToken == 'Y') {
+                 startGame();
+             }
 
               return 1;
 
