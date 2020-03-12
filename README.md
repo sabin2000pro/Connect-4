@@ -6,15 +6,15 @@ A Connect 4 Game in C that makes use of appropriate Data Structures and Algorith
 ***MACOS - GCC Compiler***
 If your Operating System is MacOS then follow the steps below to run the application:
 
-1. Open the Terminal.
+> 1. Open the Terminal.
 
-2. Go to your current directory where you have the makfile & .c file saved in.
+> 2. Go to your current directory where you have the makfile & .c file saved in.
 
-3. Type the command: cd "<your directory". Don't enter it with quotes. Replace your directory with your actual folder where the files are saved in.
+> 3. Type the command: cd "<your directory". Don't enter it with quotes. Replace your directory with your actual folder where the files are saved in.
   
-4. To compile the ConnectFour.c and create an executable, type the following command: "gcc -o ConnectFour ConnectFour.c". This will create an executable that you will be able to run.
+> 4. To compile the ConnectFour.c and create an executable, type the following command: "gcc -o ConnectFour ConnectFour.c". This will create an executable that you will be able to run within the same folder.
 
-5. Run the executable.
+> 5. Run the executable.
 
 ***Windows***
 If your Operating System is Windows then follow the steps below to run the application:
