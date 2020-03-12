@@ -16,7 +16,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define PLAYER_MOVES 42
+#define PLAYER_MOVES 42 // Number of player moves
 
 char playerOneName[PLAYER_NAME_SIZE];
 char playerTwoName[PLAYER_NAME_SIZE];
@@ -106,7 +106,6 @@ void playGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that starts the g
     
             displayGameBoard(gameBoard); // Show the game board again.
             makeMove(gameBoard); // Enable the player to make a move.
-
         }
 
         if(strcmp(playerOneName, "0") == 0) { // If the player enters 0 for the name
@@ -140,6 +139,7 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
 
    char token;
    char popMoveFlag;
+   char saveGameFlag;
 
    do {
        counter++;
@@ -147,15 +147,14 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
            printf("\n Player %s it's your turn now. Choose a column coordinate please", playerTwoName);
            scanf("%d", &theColumn);
            token = 'O';
-        
        }
 
        else {
            printf("\n Player %s choose a column coordinate please.", playerOneName); // Prompts the player to make a move.
            scanf("%d", &theColumn);
            token = 'X';
-
        }
+
 
         if(theColumn > BOARD_VERTICAL) { // If the column that the user
             printf("\n Not possible");
@@ -166,8 +165,15 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
        
        updateBoard(gameBoard, token, theColumn);
        displayGameBoard(gameBoard);
-
        checkWinner(gameBoard, token);
+
+       printf("\n Would you like save the game?");
+           scanf("  %c", &saveGameFlag);
+
+              if(saveGameFlag == 'N') {
+                  printf("\n Game Not Saved");
+                  continue;
+              }
 
     } while(!game_over); // Loop until the game is not over.
        
@@ -183,8 +189,11 @@ void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char token, int theColumn) 
 
             updated_position = 1;
             gameBoard[i][theColumn] = token;
+            printf("\n Would you like to save the game?");
+
             
              displayGameBoard(gameBoard);  // Display the game board again     
+
              break;
         }
     }
@@ -305,8 +314,13 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Helper me
                  exit(1);
              }
 
-             if(playAgainToken == 'Y') {
-                 startGame();
+             if(playAgainToken == 'Y') { // If the user enters Y
+                startGame();
+             }
+
+             if(playAgainToken != 'N' || playAgainToken != 'Y') {
+                 printf("\n Not a valid option. The game ends here");
+                 exit(1);
              }
             
               return 1;
