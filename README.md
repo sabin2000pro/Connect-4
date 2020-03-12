@@ -19,14 +19,14 @@ If your Operating System is MacOS then follow the steps below to run the applica
 ***Windows***
 If your Operating System is Windows then follow the steps below to run the application:
 
-> Start up the Command Prompt or the Microsoft Visual Studio 2017 Command Propmpt.
+> 1. Start up the Command Prompt or the Microsoft Visual Studio 2017 Command Propmpt.
 
-> Type in the current directory that you are working in (cd "Folder name"). 
+> 2. Type in the current directory that you are working in (cd "Folder name"). 
 
-> Type in the MS-DOS Shell make "filename" to make the application with regards to the makefile. 
+> 3. Type in the MS-DOS Shell make "filename" to make the application with regards to the makefile. 
 
-> Type in the MS-DOS Shell: cl "filename" to compile the application that will then create an executable file.
+> 4. Type in the MS-DOS Shell: cl "filename" to compile the application that will then create an executable file.
   
-> Run the executable file.
+> 5. Run the executable file.
 
-> Finally don't forget to type in "nmake clean" to clean any junk files necessary, ie any junk .exe/.obj files.
+> 6. Finally don't forget to type in "nmake clean" to clean any junk files necessary, ie any junk .exe/.obj files.
