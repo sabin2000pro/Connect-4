@@ -23,9 +23,9 @@ If your Operating System is Windows then follow the steps below to run the appli
 
 > Type in the current directory that you are working in (cd "Folder name"). 
 
-> Type in the MS-DOS Shell make "<filename>" to make the application with regards to the makefile. 
+> Type in the MS-DOS Shell make "filename" to make the application with regards to the makefile. 
 
-> Type in the MS-DOS Shell: cl "<filename>" to compile the application that will then create an executable file.
+> Type in the MS-DOS Shell: cl "filename" to compile the application that will then create an executable file.
   
 > Run the executable file.
 
