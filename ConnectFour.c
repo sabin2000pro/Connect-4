@@ -169,7 +169,7 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
        displayGameBoard(gameBoard);
        checkWinner(gameBoard, token);
 
-       printf("\n Would you like save the game?");
+          printf("\n Would you like save the game?");
            scanf("  %c", &saveGameFlag);
 
               if(saveGameFlag == 'N') {
@@ -180,6 +180,11 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
               if(saveGameFlag == 'Y') {
                   saveGame(gameBoard);
                   printf("\n Game Successfully Saved");
+                  continue;
+              }
+
+              if(saveGameFlag != 'N' || saveGameFlag != 'Y') {
+                  printf("\n Enter Y or N Plese.");
                   continue;
               }
 
@@ -459,7 +464,6 @@ void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
    
    savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "w");
    fprintf(savedGame, "%s", gameBoard);
-    printf("File written");
   }
 
   else {
@@ -475,7 +479,7 @@ void loadGame(char gameBoard[][BOARD_HORIZONTAL]) {
 
 void startGame() {
  char gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL];
- memset(gameBoard, ' ', BOARD_HORIZONTAL * BOARD_VERTICAL);
+ memset(gameBoard, ' ', BOARD_HORIZONTAL * BOARD_VERTICAL); // Allocate memory to the board using memset
    
  int thePlayerChoice = 0; // Player choice flag
 
