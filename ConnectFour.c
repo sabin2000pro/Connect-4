@@ -130,13 +130,11 @@ void playGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that starts the g
 }
 
 int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player X to make a move
-   struct stack *theStack;
+   struct stack *theStack = NULL;
    int valid_move = 0; // Determines if the slot is a valid move or not.
    int theColumn = 0;
 
    int counter = 0;
-   int nextColumn = 0;
-
    int game_over = 0; // Game over flag to determine if the game is over. Takes O(1) constant time.
 
    char token;
@@ -157,8 +155,7 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
            token = 'X';
        }
 
-
-        if(theColumn > BOARD_VERTICAL) { // If the column that the user
+        if(theColumn > BOARD_VERTICAL || theColumn < 0) { // If the column that the user
             printf("\n Not possible");
 
             valid_move = 0;
@@ -177,15 +174,15 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
                   continue;
               }
 
-              if(saveGameFlag == 'Y') {
-                  saveGame(gameBoard);
-                  printf("\n Game Successfully Saved");
-                  continue;
+              if(saveGameFlag == 'Y') { // If the user chooses to save the game
+                  saveGame(gameBoard); // Call method to write to a file
+                  printf("\n Game Successfully Saved"); // Display message
+                  continue; // Continue the game
               }
 
-              if(saveGameFlag != 'N' || saveGameFlag != 'Y') {
-                  printf("\n Enter Y or N Plese.");
-                  continue;
+              if(saveGameFlag != 'N' || saveGameFlag != 'Y') { // If the user doesn't enter N or Y to save the game.
+                  printf("\n Enter Y or N Plese."); // Display appropriate message.
+                  continue; // Re-enter.
               }
 
     } while(!game_over); // Loop until the game is not over.
@@ -196,33 +193,33 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
 
 void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char token, int theColumn) { // Routine to update the game board
     int updated_position = 0;
-    for(int i = BOARD_VERTICAL - 1; i >=0; i--) { // Loop over the board
+    for(int i = BOARD_VERTICAL - 1; i >=0; i--) { // Loop over the board.
 
-        if(gameBoard[i][theColumn] == ' ') {
+        if(gameBoard[i][theColumn] == ' ') { // If the game board index is an empty token. (LINEAR SEARCH) -> Time Complexity of O(N) Linear Time
 
-            updated_position = 1;
-            gameBoard[i][theColumn] = token;
+            updated_position = 1; // Set the updated position to 1. O(1) Constant time.
+            gameBoard[i][theColumn] = token; // Set the token to the game board. Constant time of O(1) taken.
             
              displayGameBoard(gameBoard);  // Display the game board again     
 
-             break;
+             break; // Break out the loop.
         }
     }
  }
 
- int checkWinner(char gameBoard[][BOARD_HORIZONTAL], char token) {
+ int checkWinner(char gameBoard[][BOARD_HORIZONTAL], char token) { // Returns 1 or 0 if the following condition is met
       return (checkHorizontal(gameBoard, token) && (verticalCheck(gameBoard, token)) && (diagonalCheck(gameBoard, token)) || diagonalCheckRight(gameBoard, token));
  }
 
-int verifyHorizontalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) {
+int verifyHorizontalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) { // Routine that checks a horizontal 4.
     int counter = 0;
 
-    if(gameBoard[row][column] == gameBoard[row][column +1]) {
-        counter++;
+    if(gameBoard[row][column] == gameBoard[row][column +1]) { // If the row and column of the game board is equal to the column next to it
+        counter++; // Increment counter
     }
 
-     if(gameBoard[row][column] == gameBoard[row][column + 2]) {
-        counter++;
+     if(gameBoard[row][column] == gameBoard[row][column + 2]) { // If the row and column of the game board is = to the column 2 spaces next to it.
+        counter++; // Counter is now 2.
     }
 
      if(gameBoard[row][column] == gameBoard[row][column + 3]) {
@@ -230,11 +227,11 @@ int verifyHorizontalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column
     }
 
      if(gameBoard[row][column] == token) {
-        counter++;
+        counter++; // Counter is now 4.
     }
 
 
-    return counter == 4;
+    return counter == 4; // Returns true.
 }
 
 int verifyVerticalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) { // Routine that will verify a vertical win
@@ -463,7 +460,7 @@ void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
   if(!savedGame) {
    
    savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "w");
-   fprintf(savedGame, "%s", gameBoard);
+   fprintf(savedGame, "%2s", gameBoard);
   }
 
   else {
@@ -507,27 +504,27 @@ void startGame() {
           showGameHelp();
           break;
 
-          case PLAY_GAME:
-          setupBoard(gameBoard);
-          playGame(gameBoard);
+          case PLAY_GAME: // If the play chooses to play the game
+          setupBoard(gameBoard); // Set up the game board
+          playGame(gameBoard); // Play the game.
           break;
 
           case PLAY_VS_COMPUTER:
           playVsComputer();
           break;
 
-          case LOAD_GAME:
-          loadGame(gameBoard);
+          case LOAD_GAME: // If the player(s) wants to load the game.
+          loadGame(gameBoard); // Call the function to load the game
           break;
 
           case QUIT:
-          printf("Have a good day");
+          printf("Have a good day"); // Otherwise quit.
 
           exit(1);
           break;
       }
 
-      } while(thePlayerChoice != QUIT);
+      } while(thePlayerChoice != QUIT); // Loop while the option is not quit
 }
 
 int main(int argc, char **argv) {

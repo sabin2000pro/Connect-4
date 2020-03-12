@@ -1,8 +1,11 @@
-CC = cc
-CFLAGS = -std=c99 -pedantic -Wall
-OBJECTS = ConnectFour.o test.o
-
-all: ConnectFour.c
+build:
+		cl /c ConnectFour.c
+		lib /OUT: ConnectFour.lib ConnectFour.obj
+		cl /c ConnectFour.c
+		link ConnectFour.obj ConnectFour.lib
+		del *.obj
+		
 
 clean:
-	rm -f *.o ConnectFour.c
+		del *.exe
+		del *.obj
