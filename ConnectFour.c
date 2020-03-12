@@ -22,6 +22,7 @@ char playerOneName[PLAYER_NAME_SIZE];
 char playerTwoName[PLAYER_NAME_SIZE];
 
 void showInstructions();
+void startGame();
 void showGameHelp();
 void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
 void playGame(char gameBoard[][BOARD_HORIZONTAL]);
@@ -43,10 +44,28 @@ int diagonalCheckRight(char gameBoard[][BOARD_HORIZONTAL], char token);
 
 void updateBoard(char gameBoard[][BOARD_HORIZONTAL],char token, int theColumn);
 
-struct BoardState {
-    int playerMoves[PLAYER_MOVES];
-    int topValue;
+struct stack {
+    char gameBoard[BOARD_VERTICAL][BOARD_HORIZONTAL]; // Stores the char 2-d array in a struct
+    int currentMove; // Store the current move in a stack struct.
 };
+
+void setupStack(struct stack *theStack) {
+    theStack->currentMove = -1; // Set the current move to -1.
+}
+
+int *popMove(struct stack *theStack) { // Routine that will pop a move a player has made
+    int *thisMove; // The move to remove.
+
+     if(theStack->currentMove == -1) { // If the stack is empty
+         printf("The board is empty, no move to remove"); // No value to remove
+         return NULL; // Return nothing
+     }
+
+     thisMove = &theStack->gameBoard[theStack->currentMove]; // Set the move to the address value of the stack by pointing to the board current move
+     theStack->currentMove--; // Decrement a move.
+
+     return thisMove; // Return the deleted move.
+}
 
 enum playerOptions {SHOW_INSTRUCTIONS = 0, SHOW_HELP = 1, PLAY_GAME = 2, PLAY_VS_COMPUTER = 3, QUIT = 4}; // A menu of options
 
@@ -57,6 +76,7 @@ void showInstructions() { // Routine that shows the game instructions
 
     printf("\n\n Before starting the game, the players decidce randomly which of them will be the beginner, either Player 1 or Player 2.");
     printf("\n\n Moves are made alternatively, one by turn, Player 1 then Player 2");
+    printf("\n\n Press S to save game.");
 }
 
 void showGameHelp() {
@@ -105,7 +125,7 @@ void playGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that starts the g
          if(line_length > 0 && playerOneName[line_length-1] == '\n' && playerTwoName[line_length-1] == '\n') {
 
              playerOneName[line_length-1] = '\0';
-             playerTwoName[line_length-1] = '\0';
+             playerTwoName[line_length-1] = '\0'; // Remove the line
          }
 }
 
@@ -116,13 +136,13 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
    int counter = 0;
    int nextColumn = 0;
 
-   int game_over = 0;
+   int game_over = 0; // Game over flag to determine if the game is over. Takes O(1) constant time.
 
    char token;
 
    do {
        counter++;
-       if(counter % 2 == 0) {
+       if(counter % 2 == 0) { // If the counter is divisible by 2, change player.
            printf("\n Player %s it's your turn now. Choose a column coordinate please", playerTwoName);
            scanf("%d", &theColumn);
            token = 'O';
@@ -135,11 +155,11 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
            
        }
 
-        if(theColumn > BOARD_VERTICAL) {
+        if(theColumn > BOARD_VERTICAL) { // If the column that the user
             printf("\n Not possible");
 
             valid_move = 0;
-            exit(1);
+            continue;
         }
        
        updateBoard(gameBoard, token, theColumn);
@@ -152,16 +172,17 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
   return 0;
 }
 
+
 void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char token, int theColumn) { // Routine to update the game board
     int updated_position = 0;
-    for(int i = BOARD_VERTICAL - 1; i >=0; i--) {
+    for(int i = BOARD_VERTICAL - 1; i >=0; i--) { // Loop over the board
 
         if(gameBoard[i][theColumn] == ' ') {
 
             updated_position = 1;
             gameBoard[i][theColumn] = token;
             
-             displayGameBoard(gameBoard);            
+             displayGameBoard(gameBoard);  // Display the game board again     
              break;
         }
     }
@@ -209,21 +230,21 @@ int verifyVerticalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, 
        counter++;
    }
 
-   if(gameBoard[row][column] == token) {
-       counter++;
+   if(gameBoard[row][column] == token) { // If the game board's row and column is equal to the winning token
+       counter++; // Increment the counter again
    }
 
-   return counter == 4;
+   return counter == 4; // Return the counter
 
     return 0;
 }
 
-int verifyDiagonalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) {
+int verifyDiagonalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) { // Routin that will verify a diagonal for 4 in a row
 
-int counter = 0;
+int counter = 0; // Set the counter to 0. Takes up O(1) time.
 
- if(gameBoard[row][column] != ' ' && gameBoard[row][column] == gameBoard[row+1][column+1]) {
-     counter++;
+ if(gameBoard[row][column] != ' ' && gameBoard[row][column] == gameBoard[row+1][column+1]) { // If the game board row and column is not an empty string and the row and column matches the one above it
+     counter++; // Increment the counter
  }
 
  if(gameBoard[row][column] == gameBoard[row+2][column+2]) {
@@ -238,7 +259,7 @@ int counter = 0;
      counter++;
  }
 
- return counter == 4;
+ return counter == 4; // Return the counter
 
 
     return 0;
@@ -268,7 +289,7 @@ int verifyDiagonalFourRight(char gameBoard[][BOARD_HORIZONTAL], int row, int col
     return 0;
 }
 
-int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
+int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Helper method that checks the vertical board for a win.
 
      for(int i = 0; i < BOARD_VERTICAL-3; i++) {
          for(int j = 0; j < BOARD_HORIZONTAL; j++) {
@@ -286,16 +307,15 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
 }
 
 int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
-
+char playAgainFlag;
   for(int i = 0; i < BOARD_VERTICAL -3; i++) {
       for(int j = 0; j < BOARD_HORIZONTAL - 3; j++) {
 
           if(verifyDiagonalFour(gameBoard, i, j , token) == 1) {
 
               printf("Player : %c  you are the winner", token);
-              printf("Would you like to play again ? Y | N");
-
-              exit(1);
+              printf("\n Would you like to play again ? Y | N");
+           
               return 1;
 
           }
@@ -306,13 +326,13 @@ int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
 }
 
 int diagonalCheckRight(char gameBoard[][BOARD_HORIZONTAL], char token) {
+    char playAgainFlag;
     for(int i = 0; i < BOARD_VERTICAL-3; i++) {
         for(int j = 3; j < BOARD_HORIZONTAL; j++) {
 
             if(verifyDiagonalFourRight(gameBoard, i, j, token) == 1) {
                 printf("Player : %c  you are the winner", token);
 
-              exit(1);
               return 1;
 
             }
@@ -373,7 +393,7 @@ void playVsComputer() {
    
 }
 
-int main(int argc, char **argv) {
+void startGame() {
  char gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL];
  memset(gameBoard, ' ', BOARD_HORIZONTAL * BOARD_VERTICAL);
    
@@ -419,6 +439,10 @@ int main(int argc, char **argv) {
       }
 
       } while(thePlayerChoice != QUIT);
+}
+
+int main(int argc, char **argv) {
+    startGame();
 
    return 0;
 }
