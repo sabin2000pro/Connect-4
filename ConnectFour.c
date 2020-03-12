@@ -43,6 +43,8 @@ int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token);
 int diagonalCheckRight(char gameBoard[][BOARD_HORIZONTAL], char token);
 
 void updateBoard(char gameBoard[][BOARD_HORIZONTAL],char token, int theColumn);
+void saveGame(char gameBoard[][BOARD_HORIZONTAL]);
+void loadGame(char gameBoard[][BOARD_HORIZONTAL]); // Routine to load the game
 
 struct stack {
     char gameBoard[BOARD_VERTICAL][BOARD_HORIZONTAL]; // Stores the char 2-d array in a struct
@@ -67,7 +69,7 @@ int *popMove(struct stack *theStack, char gameBoard[][BOARD_HORIZONTAL]) { // Ro
      return thisMove; // Return the deleted move.
 }
 
-enum playerOptions {SHOW_INSTRUCTIONS = 0, SHOW_HELP = 1, PLAY_GAME = 2, PLAY_VS_COMPUTER = 3, QUIT = 4}; // A menu of options
+enum playerOptions {SHOW_INSTRUCTIONS = 0, SHOW_HELP = 1, PLAY_GAME = 2, PLAY_VS_COMPUTER = 3, LOAD_GAME = 4, QUIT = 5}; // A menu of options
 
 
 void showInstructions() { // Routine that shows the game instructions
@@ -175,6 +177,12 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
                   continue;
               }
 
+              if(saveGameFlag == 'Y') {
+                  saveGame(gameBoard);
+                  printf("\n Game Successfully Saved");
+                  continue;
+              }
+
     } while(!game_over); // Loop until the game is not over.
        
   return 0;
@@ -189,8 +197,6 @@ void updateBoard(char gameBoard[][BOARD_HORIZONTAL], char token, int theColumn) 
 
             updated_position = 1;
             gameBoard[i][theColumn] = token;
-            printf("\n Would you like to save the game?");
-
             
              displayGameBoard(gameBoard);  // Display the game board again     
 
@@ -447,6 +453,26 @@ void playVsComputer() {
    
 }
 
+void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
+ FILE *savedGame = NULL;
+  if(!savedGame) {
+   
+   savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "w");
+   fprintf(savedGame, "%s", gameBoard);
+    printf("File written");
+  }
+
+  else {
+      printf("No file found");
+  }
+
+  fclose(savedGame);
+}
+
+void loadGame(char gameBoard[][BOARD_HORIZONTAL]) {
+ 
+}
+
 void startGame() {
  char gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL];
  memset(gameBoard, ' ', BOARD_HORIZONTAL * BOARD_VERTICAL);
@@ -462,7 +488,8 @@ void startGame() {
      printf("\n 2. Play Game");
 
      printf("\n 3. Play vs Computer");
-     printf("\n 4. Quit");
+     printf("\n 4. Load Game");
+     printf("\n 5. Quit");
 
      scanf("%d", &thePlayerChoice); // Allows the player to input a choice
 
@@ -483,6 +510,10 @@ void startGame() {
 
           case PLAY_VS_COMPUTER:
           playVsComputer();
+          break;
+
+          case LOAD_GAME:
+          loadGame(gameBoard);
           break;
 
           case QUIT:
