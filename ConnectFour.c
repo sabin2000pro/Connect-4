@@ -145,13 +145,13 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
    do {
        counter++;
        if(counter % 2 == 0) { // If the counter is divisible by 2, change player.
-           printf("\n Player %s it's your turn now. Choose a column coordinate please, 0 to save game", playerTwoName);
+           printf("\n Player %s it's your turn now. Hit 0 to Save Game", playerTwoName);
            scanf("%d", &theColumn);
            token = 'O';
        }
 
        else {
-           printf("\n Player %s choose a column coordinate please. 0 to save game", playerOneName); // Prompts the player to make a move.
+           printf("\n Player %s it's your turn now. Hit 0 to Save Game", playerOneName); // Prompts the player to make a move.
            scanf("%d", &theColumn);
            token = 'X';
        }
@@ -162,10 +162,12 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
             valid_move = 0;
             continue;
         }
-        if(theColumn != 0)
-       updateBoard(gameBoard, token, theColumn - 1);
-       displayGameBoard(gameBoard);
-       checkWinner(gameBoard, token);
+        if(theColumn != 0) // Condition if the column is not 0, don't put a token.
+
+       updateBoard(gameBoard, token, theColumn - 1); // Update the game board function called
+       displayGameBoard(gameBoard); // Displays the updated game board
+       checkWinner(gameBoard, token); // Verify who the winner is
+
        if(theColumn == 0) {
            saveGame(gameBoard);
            printf("\n Game Successfully Saved"); 
@@ -462,13 +464,15 @@ void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
 void loadGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that loads the game to be played.
    FILE *savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "r");
 
-    
+    for(int i = 0; i < BOARD_VERTICAL; i++) { // Loop over the vertical part of the board
 
-    for(int i = 0; i < BOARD_VERTICAL; i++) {
-        for(int j = 0; j < BOARD_HORIZONTAL; j++) {
-            char theTokens = fgetc(savedGame);
-            if((theTokens == 'O' || theTokens == 'X' || theTokens == ' ') && theTokens != '\n' && theTokens != '\t') 
+        for(int j = 0; j < BOARD_HORIZONTAL; j++) { // Loop over the horizontal part of the board. Takes O(N) linear time
+
+            char theTokens = fgetc(savedGame); // Grab the tokens from the board
+            if((theTokens == 'O' || theTokens == 'X' || theTokens == ' ') && theTokens != '\n' && theTokens != '\t') {
                 gameBoard[i][j] = theTokens;
+            }
+
             if(j == 6)
                 theTokens = fgetc(savedGame);
         }
