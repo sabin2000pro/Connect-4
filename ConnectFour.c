@@ -160,9 +160,10 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
         if(theColumn > BOARD_VERTICAL + 1 || theColumn < 0) { // If the column that the user
             printf("\n Not possible");
 
-            valid_move = 0;
+            valid_move = 0; // Move is not valid
             continue;
         }
+
         if(theColumn != 0) // Condition if the column is not 0, don't put a token.
 
        updateBoard(gameBoard, token, theColumn - 1); // Update the game board function called
@@ -171,6 +172,7 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
 
        if(theColumn == 0) { // If the column entered is 0.
            saveGame(gameBoard); // Save the game
+
            printf("\n Game Successfully Saved"); 
            continue; // Continue the game.
        }
@@ -228,7 +230,7 @@ int verifyHorizontalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column
 int verifyVerticalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column, char token) { // Routine that will verify a vertical win
     int counter = 0;
 
-    if(gameBoard[row][column] != ' ' && gameBoard[row][column] == gameBoard[row+1][column]) {
+    if(gameBoard[row][column] != ' ' && gameBoard[row][column] == gameBoard[row+1][column]) { // If the game board's row and column is = 1 space above the vertical row
         counter++;
     }
 
@@ -257,8 +259,8 @@ int counter = 0; // Set the counter to 0. Takes up O(1) time.
      counter++; // Increment the counter
  }
 
- if(gameBoard[row][column] == gameBoard[row+2][column+2]) {
-     counter++;
+ if(gameBoard[row][column] == gameBoard[row+2][column+2]) { // If the game board's row and column is = to 2 spaces above each row and column (diagonally)
+     counter++; // Increment the counter
  }
 
  if(gameBoard[row][column] == gameBoard[row+3][column+3]) {
@@ -333,6 +335,7 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Helper me
 
 int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Routine to check for a diagonal win
 char playAgainToken;
+
   for(int i = 0; i < BOARD_VERTICAL -3; i++) {
       for(int j = 0; j < BOARD_HORIZONTAL - 3; j++) {
 
@@ -391,7 +394,7 @@ int checkHorizontal(char gameBoard[][BOARD_HORIZONTAL], char token) { // Routine
      for(int i = 0; i < BOARD_VERTICAL; i++) {
          for(int j = 0; j < BOARD_HORIZONTAL-3; j++) {
             
-          if(verifyHorizontalFour(gameBoard, i, j, token) == 1) {
+          if(verifyHorizontalFour(gameBoard, i, j, token) == TRUE) {
               
              printf("Player : %c you are the winner. Would you like to play again? Y for Yes or N for NO", token); // Display who the winner is.
              scanf(" %c", &playAgainToken); // Get the user input if the player wants to play again.
