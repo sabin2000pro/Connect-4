@@ -59,7 +59,7 @@ void setupStack(struct stack *theStack) {
 int *popMove(struct stack *theStack, char gameBoard[][BOARD_HORIZONTAL]) { // Routine that will pop a move a player has made
     int *thisMove; // The move to remove.
 
-     if(theStack->currentMove == -1) { // If the stack is empty
+     if(theStack->currentMove == ' ') { // If the stack is empty
          printf("The board is empty, no move to remove"); // No value to remove
          return NULL; // Return nothing
      }
@@ -146,13 +146,13 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
    do {
        counter++;
        if(counter % 2 == 0) { // If the counter is divisible by 2, change player.
-           printf("\n Player %s it's your turn now. Hit 0 to Save Game", playerTwoName);
+           printf("\n Player %s it's your turn now. Hit 0 to Save Game & P to undo move.", playerTwoName);
            scanf("%d", &theColumn);
            token = 'O';
        }
 
        else {
-           printf("\n Player %s it's your turn now. Hit 0 to Save Game", playerOneName); // Prompts the player to make a move.
+           printf("\n Player %s it's your turn now. Hit 0 to Save Game & P to undo move.", playerOneName); // Prompts the player to make a move.
            scanf("%d", &theColumn);
            token = 'X';
        }
@@ -174,6 +174,7 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
            printf("\n Game Successfully Saved"); 
            continue; // Continue the game.
        }
+
 
     } while(!game_over); // Loop until the game is not over.
        
@@ -482,7 +483,8 @@ void loadGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that loads the ga
                 theTokens = fgetc(savedGame);
         }
     }
-    fclose(savedGame);
+
+    fclose(savedGame); // Close the file to prevent errors.
     playGame(gameBoard);
 
 }
