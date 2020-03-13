@@ -70,16 +70,17 @@ int *popMove(struct stack *theStack, char gameBoard[][BOARD_HORIZONTAL]) { // Ro
      return thisMove; // Return the deleted move.
 }
 
-enum playerOptions {SHOW_INSTRUCTIONS = 0, SHOW_HELP = 1, PLAY_GAME = 2, PLAY_VS_COMPUTER = 3, LOAD_GAME = 4, QUIT = 5}; // A menu of options
+enum playerOptions {SHOW_INSTRUCTIONS = 0, SHOW_HELP = 1, PLAY_GAME = 2, PLAY_VS_COMPUTER = 3, LOAD_GAME = 4, QUIT = 5}; // A menu of options that the player can choose from
 
 
 void showInstructions() { // Routine that shows the game instructions
-    printf("\n\n The aim of the game is for 2 players to make a straight line of 4 discs.");
-    printf("\n\n The line can be vertical, horizontal or diagonal and match 4 to win");
+    printf("\n 1. The aim of the game is for 2 players to make a straight line of 4 discs.");
+    printf("\n 2. The line can be vertical, horizontal or diagonal and match 4 to win");
 
-    printf("\n\n Before starting the game, the players decidce randomly which of them will be the beginner, either Player 1 or Player 2.");
-    printf("\n\n Moves are made alternatively, one by turn, Player 1 then Player 2");
-    printf("\n\n Press S to save game.");
+    printf("\n 3. Before starting the game, the players decidce randomly which of them will be the beginner, either Player 1 or Player 2.");
+    printf("\n 4. Moves are made alternatively, one by turn, Player 1 then Player 2");
+    printf("\n 5. Press 0 to save game.");
+    printf("\n 6. If you want to undo a move - Hit P"); // Tells the user to hit P if they want to undo a move they did.
 }
 
 void showGameHelp() {
@@ -316,7 +317,7 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Helper me
                 startGame();
              }
 
-             if(playAgainToken != 'N' || playAgainToken != 'Y') {
+             if(playAgainToken != 'N' || playAgainToken != 'Y') { // If the token entered is not an N or a Y, then end the game completely
                  printf("\n Not a valid option. The game ends here");
                  exit(1);
              }
@@ -329,7 +330,7 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Helper me
     return 1;
 }
 
-int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) {
+int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Routine to check for a diagonal win
 char playAgainToken;
   for(int i = 0; i < BOARD_VERTICAL -3; i++) {
       for(int j = 0; j < BOARD_HORIZONTAL - 3; j++) {
@@ -434,10 +435,12 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
              printf("| %c ",  gameBoard[index][secondIndex]);
          }
 
-         puts("|");
+      puts("|");
 
       puts("-----------------------------");
+
      }
+
      puts("  1   2   3   4   5   6   7\n");
 }
 
