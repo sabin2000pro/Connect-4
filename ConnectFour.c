@@ -145,47 +145,32 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
    do {
        counter++;
        if(counter % 2 == 0) { // If the counter is divisible by 2, change player.
-           printf("\n Player %s it's your turn now. Choose a column coordinate please", playerTwoName);
+           printf("\n Player %s it's your turn now. Choose a column coordinate please, 0 to save game", playerTwoName);
            scanf("%d", &theColumn);
            token = 'O';
        }
 
        else {
-           printf("\n Player %s choose a column coordinate please.", playerOneName); // Prompts the player to make a move.
+           printf("\n Player %s choose a column coordinate please. 0 to save game", playerOneName); // Prompts the player to make a move.
            scanf("%d", &theColumn);
            token = 'X';
        }
 
-        if(theColumn > BOARD_VERTICAL || theColumn < 0) { // If the column that the user
+        if(theColumn > BOARD_VERTICAL + 1 || theColumn < 0) { // If the column that the user
             printf("\n Not possible");
 
             valid_move = 0;
             continue;
         }
-       
-       updateBoard(gameBoard, token, theColumn);
+        if(theColumn != 0)
+       updateBoard(gameBoard, token, theColumn - 1);
        displayGameBoard(gameBoard);
        checkWinner(gameBoard, token);
-
-          printf("\n Would you like save the game?");
-           scanf("  %c", &saveGameFlag);
-
-              if(saveGameFlag == 'N') {
-                  printf("\n Game Not Saved");
-                  continue;
-              }
-
-              if(saveGameFlag == 'Y') { // If the user chooses to save the game
-                  saveGame(gameBoard); // Call method to write to a file
-                  printf("\n Game Successfully Saved"); // Display message
-                  continue; // Continue the game
-              }
-
-              if(saveGameFlag != 'N' || saveGameFlag != 'Y') { // If the user doesn't enter N or Y to save the game.
-                  printf("\n Enter Y or N Plese."); // Display appropriate message.
-                  continue; // Re-enter.
-              }
-
+       if(theColumn == 0) {
+           saveGame(gameBoard);
+           printf("\n Game Successfully Saved"); 
+           continue;
+       }
     } while(!game_over); // Loop until the game is not over.
        
   return 0;
@@ -449,7 +434,7 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
 
       puts("-----------------------------");
      }
-     puts("  0   1   2   3   4   5   6\n");
+     puts("  1   2   3   4   5   6   7\n");
 }
 
 void playVsComputer() {
@@ -457,9 +442,8 @@ void playVsComputer() {
 }
 
 void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
- FILE *savedGame = NULL;
-  if(!savedGame) {
-   savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "w");
+ 
+ FILE *savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "w");
      
      for(int i = 0; i < BOARD_VERTICAL; i++) {
 
@@ -471,11 +455,6 @@ void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
          }
         fprintf(savedGame, "%c", '\n');
      }
-  }
-
-  else {
-      printf("No file found");
-  }
 
   fclose(savedGame);
 }
@@ -485,14 +464,18 @@ void loadGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that loads the ga
 
     
 
-    for(int i = BOARD_VERTICAL - 1; i >= 0; i--) {
+    for(int i = 0; i < BOARD_VERTICAL; i++) {
         for(int j = 0; j < BOARD_HORIZONTAL; j++) {
             char theTokens = fgetc(savedGame);
-            if(theTokens == 'O' || theTokens == 'X' || theTokens == ' ')
-            gameBoard[i][j] = theTokens;
+            if((theTokens == 'O' || theTokens == 'X' || theTokens == ' ') && theTokens != '\n' && theTokens != '\t') 
+                gameBoard[i][j] = theTokens;
+            if(j == 6)
+                theTokens = fgetc(savedGame);
         }
     }
+    fclose(savedGame);
     playGame(gameBoard);
+
 }
 
 void startGame() {

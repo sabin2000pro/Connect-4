@@ -1,6 +1,6 @@
        
        
        
-O      
-O  X   
-X  X   
+       
+   XO  
+XOXOXX 
