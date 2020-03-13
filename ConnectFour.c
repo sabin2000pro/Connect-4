@@ -18,15 +18,15 @@
 #define FALSE 0
 #define PLAYER_MOVES 42 // Number of player moves
 
-char playerOneName[PLAYER_NAME_SIZE];
-char playerTwoName[PLAYER_NAME_SIZE];
+char playerOneName[PLAYER_NAME_SIZE]; // Char array to store the player one name
+char playerTwoName[PLAYER_NAME_SIZE]; // Char array to store the player two name
 
-void showInstructions();
+void showInstructions(); // Method declaration to show the game instructions
 void startGame();
 
-void showGameHelp();
-void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
-void playGame(char gameBoard[][BOARD_HORIZONTAL]);
+void showGameHelp(); // Shows game help
+void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]); // Method declaration to display the game board.
+void playGame(char gameBoard[][BOARD_HORIZONTAL]); // Routine to play the game.
 
 int makeMove(char gameBoard[][BOARD_HORIZONTAL]);
 int checkWinner(char gameBoard[][BOARD_HORIZONTAL], char token);
