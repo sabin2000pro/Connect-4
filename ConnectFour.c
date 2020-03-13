@@ -23,6 +23,7 @@ char playerTwoName[PLAYER_NAME_SIZE];
 
 void showInstructions();
 void startGame();
+
 void showGameHelp();
 void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]);
 void playGame(char gameBoard[][BOARD_HORIZONTAL]);
@@ -371,7 +372,7 @@ int diagonalCheckRight(char gameBoard[][BOARD_HORIZONTAL], char token) {
     for(int i = 0; i < BOARD_VERTICAL-3; i++) {
         for(int j = 3; j < BOARD_HORIZONTAL; j++) {
 
-            if(verifyDiagonalFourRight(gameBoard, i, j, token) == 1) {
+            if(verifyDiagonalFourRight(gameBoard, i, j, token) == TRUE) {
                 printf("Player : %c  you are the winner. Would you like to play again? Y for Yes or N for NO", token);
                 scanf(" %c", &playAgainToken); // Get the user input if the player wants to play again.
 
@@ -447,8 +448,8 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
          puts("|");
 
       puts("-----------------------------");
-
      }
+     puts("  0   1   2   3   4   5   6\n");
 }
 
 void playVsComputer() {
@@ -458,9 +459,18 @@ void playVsComputer() {
 void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
  FILE *savedGame = NULL;
   if(!savedGame) {
-   
    savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "w");
-   fprintf(savedGame, "%2s", gameBoard);
+     
+     for(int i = 0; i < BOARD_VERTICAL; i++) {
+
+         for(int j = 0; j < BOARD_HORIZONTAL; j++) {
+
+             fprintf(savedGame, "%c", gameBoard[i][j]);
+
+           
+         }
+        fprintf(savedGame, "%c", '\n');
+     }
   }
 
   else {
@@ -470,8 +480,19 @@ void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
   fclose(savedGame);
 }
 
-void loadGame(char gameBoard[][BOARD_HORIZONTAL]) {
- 
+void loadGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that loads the game to be played.
+   FILE *savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "r");
+
+    
+
+    for(int i = BOARD_VERTICAL - 1; i >= 0; i--) {
+        for(int j = 0; j < BOARD_HORIZONTAL; j++) {
+            char theTokens = fgetc(savedGame);
+            if(theTokens == 'O' || theTokens == 'X' || theTokens == ' ')
+            gameBoard[i][j] = theTokens;
+        }
+    }
+    playGame(gameBoard);
 }
 
 void startGame() {
