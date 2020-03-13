@@ -398,11 +398,11 @@ int checkHorizontal(char gameBoard[][BOARD_HORIZONTAL], char token) { // Routine
 
              if(playAgainToken == 'N') {
                  printf("\n Have a good day");
-                 exit(1);
+                 exit(1); // Quit
              }
 
-             if(playAgainToken == 'Y') {
-                 startGame();
+             if(playAgainToken == 'Y') { // If the token entered by the user is Y
+                 startGame(); // Start the game again
              }
 
              return 1;
@@ -413,13 +413,13 @@ int checkHorizontal(char gameBoard[][BOARD_HORIZONTAL], char token) { // Routine
      return 1;
 }
 
-void setupBoard(char gameBoard[][BOARD_HORIZONTAL]) {
+void setupBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Method that sets up the game board
 
     for(int i = 0; i <= BOARD_VERTICAL; i++) {
 
         for(int j = 0; j <= BOARD_VERTICAL; j++) {
 
-           gameBoard[i][j] = ' ';
+           gameBoard[i][j] = ' '; // Set the game board's vertical and horizontal indexes to an empty string
         }
     }
     
@@ -428,8 +428,8 @@ void setupBoard(char gameBoard[][BOARD_HORIZONTAL]) {
 }
 
 void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to display the game board to play in. It will display a Connect 4 Game Board using a 2-D array data structure
-  system("clear");
-     for(int index = 0; index < BOARD_VERTICAL; index++) {
+  system("clear"); // Clear the screen
+     for(int index = 0; index < BOARD_VERTICAL; index++) { // Loop over the vertical board. Time Complexity of O(N) Linear Time
 
          for(int secondIndex = 0; secondIndex < BOARD_HORIZONTAL; secondIndex++) {
 
@@ -445,26 +445,26 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
      puts("  1   2   3   4   5   6   7\n");
 }
 
-void playVsComputer() {
+void playVsComputer() { // Method that allows the player to play vs the Computer using an AI algorithm.
    
 }
 
-void saveGame(char gameBoard[][BOARD_HORIZONTAL]) {
+void saveGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that saves the game to a file so the game can be played later (loaded)
  
- FILE *savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "w");
+ FILE *savedGame = fopen("Desktop/Connect-4/connectfourgame.txt", "w"); // Open the file to write to it
      
-     for(int i = 0; i < BOARD_VERTICAL; i++) {
+     for(int i = 0; i < BOARD_VERTICAL; i++) { // Loop over the vertical part of the board
 
-         for(int j = 0; j < BOARD_HORIZONTAL; j++) {
+         for(int j = 0; j < BOARD_HORIZONTAL; j++) { // Loop over the horizontal part of the board.
 
-             fprintf(savedGame, "%c", gameBoard[i][j]);
-
+             fprintf(savedGame, "%c", gameBoard[i][j]); // Print the board contents
            
          }
-        fprintf(savedGame, "%c", '\n');
+
+        fprintf(savedGame, "%c", '\n'); // Add a new line to the file
      }
 
-  fclose(savedGame);
+  fclose(savedGame); // Close the file to prevent errors.
 }
 
 void loadGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that loads the game to be played.
