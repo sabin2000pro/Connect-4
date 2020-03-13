@@ -150,7 +150,7 @@ void playVsComputerAI(char gameBoard[][BOARD_HORIZONTAL]) {
     
         displayGameBoard(gameBoard); // Show the game board again.
         makeComputerMove(gameBoard); // Enable the player to make a move.
-        }
+    }
 }
 
 int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player X to make a move
@@ -472,12 +472,16 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
 
 void makeComputerMove(char gameBoard[][BOARD_HORIZONTAL]) { // Method that allows the player to play vs the Computer using an AI algorithm.
    int counter = 0;
+   int validMove = 0;
+   int move = 0;
+
    int gameOver = 0;
    int theColumn;
    char token;
 
     do {
         counter++;
+
         if(counter % 2 == 0) {
            printf("\n Player %s it's your turn now. Hit 0 to Save Game & P to undo move.", playerTwoName);
            scanf("%d", &theColumn);
@@ -487,8 +491,11 @@ void makeComputerMove(char gameBoard[][BOARD_HORIZONTAL]) { // Method that allow
        else {
            printf("\n It's the computer's turn", playerOneName); // Prompts the player to make a move.
            scanf("%d", &theColumn);
-           token = 'O';
+        
        }
+
+       updateBoard(gameBoard, token, theColumn-1);
+       displayGameBoard(gameBoard);
      } while(!gameOver);
 }
 
