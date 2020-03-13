@@ -168,11 +168,12 @@ int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player
        displayGameBoard(gameBoard); // Displays the updated game board
        checkWinner(gameBoard, token); // Verify who the winner is
 
-       if(theColumn == 0) {
-           saveGame(gameBoard);
+       if(theColumn == 0) { // If the column entered is 0.
+           saveGame(gameBoard); // Save the game
            printf("\n Game Successfully Saved"); 
-           continue;
+           continue; // Continue the game.
        }
+
     } while(!game_over); // Loop until the game is not over.
        
   return 0;
@@ -210,11 +211,11 @@ int verifyHorizontalFour(char gameBoard[][BOARD_HORIZONTAL], int row, int column
         counter++; // Counter is now 2.
     }
 
-     if(gameBoard[row][column] == gameBoard[row][column + 3]) {
-        counter++;
+     if(gameBoard[row][column] == gameBoard[row][column + 3]) { // If the row and column of the game board is = to the column 3 spaces next to it
+        counter++; // Increment counter again
     }
 
-     if(gameBoard[row][column] == token) {
+     if(gameBoard[row][column] == token) { // Checks to see if 4 in a row has been formed.
         counter++; // Counter is now 4.
     }
 
@@ -297,17 +298,18 @@ int verifyDiagonalFourRight(char gameBoard[][BOARD_HORIZONTAL], int row, int col
 }
 
 int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token) { // Helper method that checks the vertical board for a win.
- char playAgainToken;
-     for(int i = 0; i < BOARD_VERTICAL-3; i++) {
+ char playAgainToken; // Token that stores a character if the player wants to play again or not
+
+     for(int i = 0; i < BOARD_VERTICAL-3; i++) { // Loop over the vertical part of the board. Takes O(N) Linear Time
          for(int j = 0; j < BOARD_HORIZONTAL; j++) {
             
           if(verifyVerticalFour(gameBoard, i, j, token) == 1) { // If the verification of the vertical four is true
               printf("Player : %c  you are the winner. Would you like to play again? Y for Yes or N for No", token); // Display the winner of the game.
               scanf(" %c", &playAgainToken); // Get the user input if the player wants to play again.
 
-             if(playAgainToken == 'N') {
-                 printf("\n Have a good day");
-                 exit(1);
+             if(playAgainToken == 'N') { // If the player enters N for NO
+                 printf("\n Have a good day"); // Display message.
+                 exit(1); // Exit the game.
              }
 
              if(playAgainToken == 'Y') { // If the user enters Y
