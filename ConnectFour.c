@@ -3,6 +3,8 @@
 #include <time.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
+#include <sys/types.h>
 
 // Author of Application: Sabin Constantin Lungu
 // Purpose of Application: To implement a Connect 4 Game using Data Structures and Algorithms.
@@ -27,6 +29,7 @@ void startGame();
 void showGameHelp(); // Shows game help
 void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]); // Method declaration to display the game board.
 void playGame(char gameBoard[][BOARD_HORIZONTAL]); // Routine to play the game.
+void playVsComputerAI(char gameBoard[][BOARD_HORIZONTAL]);
 
 int makeMove(char gameBoard[][BOARD_HORIZONTAL]);
 int checkWinner(char gameBoard[][BOARD_HORIZONTAL], char token);
@@ -42,8 +45,11 @@ int verticalCheck(char gameBoard[][BOARD_HORIZONTAL], char token);
 
 int diagonalCheck(char gameBoard[][BOARD_HORIZONTAL], char token);
 int diagonalCheckRight(char gameBoard[][BOARD_HORIZONTAL], char token);
+int isColumnFull(char gameBoard[][BOARD_HORIZONTAL], int random_move);
 
 void updateBoard(char gameBoard[][BOARD_HORIZONTAL],char token, int theColumn);
+
+void makeComputerMove(char gameBoard[][BOARD_HORIZONTAL]);
 void saveGame(char gameBoard[][BOARD_HORIZONTAL]);
 void loadGame(char gameBoard[][BOARD_HORIZONTAL]); // Routine to load the game
 
@@ -129,6 +135,22 @@ void playGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that starts the g
              playerOneName[line_length-1] = '\0';
              playerTwoName[line_length-1] = '\0'; // Remove the line
          }
+}
+
+void playVsComputerAI(char gameBoard[][BOARD_HORIZONTAL]) {
+  int nameEntered = 0; // Flag to determine if the names are.
+  int currentPlayer = 0;
+  int position = 0;
+
+   printf("\n\n Player X: Enter your name please.");
+   scanf("%s", playerOneName);
+   nameEntered = 1;
+
+    if(nameEntered == 1) { // If the name has been entered
+    
+        displayGameBoard(gameBoard); // Show the game board again.
+        makeComputerMove(gameBoard); // Enable the player to make a move.
+        }
 }
 
 int makeMove(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that allows Player X to make a move
@@ -448,8 +470,34 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
      puts("  1   2   3   4   5   6   7\n");
 }
 
-void playVsComputer() { // Method that allows the player to play vs the Computer using an AI algorithm.
-   
+void makeComputerMove(char gameBoard[][BOARD_HORIZONTAL]) { // Method that allows the player to play vs the Computer using an AI algorithm.
+   int counter = 0;
+   int gameOver = 0;
+   int theColumn;
+   char token;
+
+    do {
+        counter++;
+        if(counter % 2 == 0) {
+           printf("\n Player %s it's your turn now. Hit 0 to Save Game & P to undo move.", playerTwoName);
+           scanf("%d", &theColumn);
+           token = 'X';
+       }
+
+       else {
+           printf("\n It's the computer's turn", playerOneName); // Prompts the player to make a move.
+           scanf("%d", &theColumn);
+           token = 'O';
+       }
+     } while(!gameOver);
+}
+
+int isColumnFull(char gameBoard[][BOARD_HORIZONTAL], int random_move) {
+    if(gameBoard[random_move-1][0] == 0)
+      return 0;
+
+      else
+      return 1;
 }
 
 void saveGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that saves the game to a file so the game can be played later (loaded)
@@ -495,7 +543,7 @@ void loadGame(char gameBoard[][BOARD_HORIZONTAL]) { // Routine that loads the ga
 void startGame() {
  char gameBoard[BOARD_HORIZONTAL][BOARD_VERTICAL];
  memset(gameBoard, ' ', BOARD_HORIZONTAL * BOARD_VERTICAL); // Allocate memory to the board using memset
-   
+
  int thePlayerChoice = 0; // Player choice flag
 
  do {
@@ -528,7 +576,7 @@ void startGame() {
           break;
 
           case PLAY_VS_COMPUTER:
-          playVsComputer();
+          playVsComputerAI(gameBoard);
           break;
 
           case LOAD_GAME: // If the player(s) wants to load the game.
