@@ -15,6 +15,7 @@
 #define BOARD_VERTICAL 6 // Vertical slots for the game board
 
 #define PLAYER_NAME_SIZE 128
+#define INPUT_SIZE 256
 
 #define TRUE 1
 #define FALSE 0
@@ -471,32 +472,9 @@ void displayGameBoard(char gameBoard[][BOARD_HORIZONTAL]) { // Routine to displa
 }
 
 void makeComputerMove(char gameBoard[][BOARD_HORIZONTAL]) { // Method that allows the player to play vs the Computer using an AI algorithm.
-   int counter = 0;
-   int validMove = 0;
-   int move = 0;
+  
+  
 
-   int gameOver = 0;
-   int theColumn;
-   char token;
-
-    do {
-        counter++;
-
-        if(counter % 2 == 0) {
-           printf("\n Player %s it's your turn now. Hit 0 to Save Game & P to undo move.", playerTwoName);
-           scanf("%d", &theColumn);
-           token = 'X';
-       }
-
-       else {
-           printf("\n It's the computer's turn", playerOneName); // Prompts the player to make a move.
-           scanf("%d", &theColumn);
-        
-       }
-
-       updateBoard(gameBoard, token, theColumn-1);
-       displayGameBoard(gameBoard);
-     } while(!gameOver);
 }
 
 int isColumnFull(char gameBoard[][BOARD_HORIZONTAL], int random_move) {
