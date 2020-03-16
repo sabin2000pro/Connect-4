@@ -1,5 +1,13 @@
 # Connect-4 - Purpose of Application
-A Connect 4 Game in C that makes use of appropriate Data Structures and Algorithms. The game can be played 1vs1 and also against a Computer with an AI Algorithm.
+A Connect 4 Game in C that makes use of appropriate Data Structures and Algorithms. The game can be played 1vs1 and also against a Computer with an AI Algorithm. The following features will be implemented in the game.
+
+>  1. Save & Load Game.
+
+>  2. Undo (Remove) a move made by a player.
+
+>  3. Push a move back into the game board. (Redo)
+
+>  4. Option to play vs a Computer using an AI algorithm (1 Player).
 
 # How do I run the application?
 
