@@ -59,3 +59,12 @@ Players can view the instructions of the game if they are new to to the game and
 <img width="878" alt="Instructions" src="https://user-images.githubusercontent.com/29733613/78074540-d1309000-739a-11ea-88d7-70c1e41491c0.png">
 
 
+# See Help
+
+This allows players to get help.
+
+<img width="461" alt="Show Help" src="https://user-images.githubusercontent.com/29733613/78074549-d4c41700-739a-11ea-925f-f853fa6afec6.png">
+
+# Gameplay - 1
+
+<img width="542" alt="GamePlay" src="https://user-images.githubusercontent.com/29733613/78074594-ea394100-739a-11ea-94c1-a500f95b680a.png">
