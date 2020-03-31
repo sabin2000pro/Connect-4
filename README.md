@@ -81,3 +81,7 @@ The player chooses a position on the game board to insert a disc in, just like t
 # Horizontal Win
 
 <img width="633" alt="HorizontalWin" src="https://user-images.githubusercontent.com/29733613/78074574-e1e10600-739a-11ea-8f0e-e6140af2092a.png">
+
+# Diagonal Win
+
+<img width="639" alt="DiagonalWin" src="https://user-images.githubusercontent.com/29733613/78076278-02f72600-739e-11ea-974c-7e0da741bffa.png">
