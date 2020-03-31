@@ -73,3 +73,11 @@ This allows players to get help.
 The player chooses a position on the game board to insert a disc in, just like the real life connect 4 game until 4 discs are in a row diagonally, vertically or horizontally.
 
 <img width="490" alt="GamePlay2" src="https://user-images.githubusercontent.com/29733613/78074613-eefdf500-739a-11ea-948a-fb9de24bb168.png">
+
+# Vertical Win
+
+<img width="637" alt="VerticalWin" src="https://user-images.githubusercontent.com/29733613/78074570-ddb4e880-739a-11ea-98a4-12549069489b.png">
+
+# Horizontal Win
+
+<img width="633" alt="HorizontalWin" src="https://user-images.githubusercontent.com/29733613/78074574-e1e10600-739a-11ea-8f0e-e6140af2092a.png">
