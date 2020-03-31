@@ -68,3 +68,8 @@ This allows players to get help.
 # Gameplay - 1
 
 <img width="542" alt="GamePlay" src="https://user-images.githubusercontent.com/29733613/78074594-ea394100-739a-11ea-94c1-a500f95b680a.png">
+
+# Gameplay - 2
+The player chooses a position on the game board to insert a disc in, just like the real life connect 4 game until 4 discs are in a row diagonally, vertically or horizontally.
+
+<img width="490" alt="GamePlay2" src="https://user-images.githubusercontent.com/29733613/78074613-eefdf500-739a-11ea-948a-fb9de24bb168.png">
