@@ -48,4 +48,14 @@ If your Operating System is Windows then follow the steps below to run the appli
 > ***Stack Data Structure*** used to push & pop a move that has been made by a player.
 
 # Game Menu
+The Game Menu presents the users with options to choose from.
+
+<img width="237" alt="Menu" src="https://user-images.githubusercontent.com/29733613/78074529-cd047280-739a-11ea-84b0-7bfd6362eabf.png">
+
+# See Instructions
+
+Players can view the instructions of the game if they are new to to the game and have never played it before.
+
+<img width="878" alt="Instructions" src="https://user-images.githubusercontent.com/29733613/78074540-d1309000-739a-11ea-88d7-70c1e41491c0.png">
+
 
