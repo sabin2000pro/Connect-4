@@ -38,3 +38,14 @@ If your Operating System is Windows then follow the steps below to run the appli
 > 5. Run the executable file.
 
 > 6. Finally don't forget to type in "nmake clean" to clean any junk files necessary, ie any junk .exe/.obj files.
+
+# Data Structures & Algorithms Used
+
+> A 2-D char array has been used to build the game board which allows players to make a move.
+
+> The ***Linear Search Algorithm*** is used to check for win diagonally, horizontally or diagonally.
+
+> ***Stack Data Structure*** used to push & pop a move that has been made by a player.
+
+# Game Menu
+
